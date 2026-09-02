@@ -9,9 +9,63 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+/**
+ * The 3-Step Stream Pipeline
+ * Every stream operation follows a predictable lifecycle: 
+ * [Data Source] ──> [Intermediate Operations (Lazy)] ──> [Terminal Operation]
+ * (List, Array...)   (filter, map, sorted...)            (collect, count, forEach...)
+ * 
+ * 1. Stream Creation
+ * You can instantiate a stream from several different types of sources:
+ * •	From a Collection: list.stream() or set.stream()
+ * •	From an Array: Arrays.stream(array)
+ * •	From Values: Stream.of("A", "B", "C") 
+ * 
+ * 2. Intermediate Operations (Transformative & Lazy)
+ * These operations transform an existing stream into another stream, 
+ * allowing you to chain multiple methods together. They are not executed 
+ * until the terminal operation runs. 
+ * •	filter(Predicate): 
+ * 			Retains elements matching a specific condition.
+ * •	map(Function): 
+ * 			Transforms each element into another value or type.
+ * •	flatMap(Function): 
+ * 			Flattens complex, nested structures (e.g., a stream of lists 
+ * 			into a single stream of elements).
+ * •	distinct(): 
+ * 			Removes duplicate entries based on equals().
+ * •	sorted(): 
+ * 			Sorts elements using natural ordering or a custom Comparator.
+ * •	limit(long) / skip(long): 
+ * 			Restricts or skips a specific number of	items. 
+ * 
+ * 3. Terminal Operations (Eager & Destructive)
+ * These operations execute the pipeline, consume the stream, and produce 
+ * a final result or side effect. Once executed, the stream can no longer 
+ * be used.
+ * •	collect(Collector): 
+ * 			Gathers elements into a data structure like a List, Set, or Map.
+ * •	forEach(Consumer): 
+ * 			Iterates through each element, typically used for printing or 
+ * 			performing actions.
+ * •	reduce(): 
+ * 			Combines elements into a single aggregate result (e.g., finding 
+ * 			a sum).
+ * •	count(): 
+ * 			Returns the total number of items.
+ * •	anyMatch() / allMatch() / noneMatch(): 
+ * 		Validates elements against a condition and returns a boolean value. 
+ * 
+ */
 
 /**
  * (1) Function interface 
+ * 		Conceptual Syntax
+ * 		@FunctionalInterface
+ * 		public interface Function<T, R> {
+ * 			 R apply(T t); // Takes type T, returns type R
+ * 		}
+ * 
  * (2) Predicate interface
  * 		(2.1) Using BiPredicate in Steam
  * 			Scenario A: Matching Stream Elements Against an External Variable
@@ -19,7 +73,7 @@ import java.util.stream.Collectors;
  * (3) Optional
  * 
  */
-public class Java8_Stream_APIs {
+public class Java8_Stream_APIs_Function_Predicate_Optional {
 	// Using function interface 
 	public static<T, R> List<R> mapList(List<T> list, Function<T, R> mapper) {
 		return list.stream()
@@ -156,13 +210,34 @@ public class Java8_Stream_APIs {
         System.out.println(validPair.test(4, 6));  // true
         System.out.println(validPair.test(-2, 2)); // false (fails bothPositive)
         
-        // Optional
+        // Optional -- Java 8
         List<String> names1 = Arrays.asList("Alice", "Bob", "Charlie");
         Optional<String> result2 = findElement(names1, name->name.startsWith("B"));
 
         result2.ifPresent(System.out::println);
         
         names1.stream().filter(name->name.startsWith("B")).forEach(System.out::println);
+        
+        // Optional -- Java 9+
+        List<Optional<String>> optionalsList = List.of(
+        		 Optional.of("Alice"),
+        		 Optional.empty(),
+        		 Optional.of("Bob"),
+        		 Optional.empty(),
+        		 Optional.of("Charlie")
+        		 );
+        
+        List<String> result3 = optionalsList.stream()
+        		.flatMap(Optional::stream) // Converts each Optional to a Stream of 0 or 1 element
+        		.collect(Collectors.toList());
+        
+        System.out.println("Java 9+: "+ result3); 
+        
+        List<String> resultJava8 = optionalsList.stream()
+        	    .filter(Optional::isPresent) // Keep only present Optionals
+        	    .map(Optional::get)          // Extract the values
+        	    .collect(Collectors.toList());
+        System.out.println("Java 8: "+ resultJava8);
 	}
 }
 
