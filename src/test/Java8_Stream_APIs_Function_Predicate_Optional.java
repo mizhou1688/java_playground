@@ -124,7 +124,9 @@ public class Java8_Stream_APIs_Function_Predicate_Optional {
 				.forEach(System.out::println);
 		
 		
-		// Function interface
+		/**
+		 *  Function interface
+		 */
 		// Square each number
 		List<Integer> squaredNumbers = mapList(numbers, n -> n * n);
 		System.out.println(squaredNumbers);
@@ -148,7 +150,9 @@ public class Java8_Stream_APIs_Function_Predicate_Optional {
         System.out.println(manualUpperNames); // Output: [APPLE, BANANA, CHERRY]
         
 		
-        // Predicate Interface
+        /**
+         *  Predicate Interface
+         */
         List<String> filteredwords = filterList(names, word->word.startsWith("J"));
         System.out.println("Filtered Words: " + filteredwords);
 
@@ -210,15 +214,20 @@ public class Java8_Stream_APIs_Function_Predicate_Optional {
         System.out.println(validPair.test(4, 6));  // true
         System.out.println(validPair.test(-2, 2)); // false (fails bothPositive)
         
-        // Optional -- Java 8
+        /**
+         *  Optional -- Java 8
+         */
         List<String> names1 = Arrays.asList("Alice", "Bob", "Charlie");
         Optional<String> result2 = findElement(names1, name->name.startsWith("B"));
 
-        result2.ifPresent(System.out::println);
+        result2.ifPresent(System.out::println); // print 1st name that meets the condition
         
+        // without optional, print all the names that meet the condition 
         names1.stream().filter(name->name.startsWith("B")).forEach(System.out::println);
         
-        // Optional -- Java 9+
+        /**
+         *  Optional -- Java 9+
+         */
         List<Optional<String>> optionalsList = List.of(
         		 Optional.of("Alice"),
         		 Optional.empty(),
@@ -233,6 +242,7 @@ public class Java8_Stream_APIs_Function_Predicate_Optional {
         
         System.out.println("Java 9+: "+ result3); 
         
+        // java 8
         List<String> resultJava8 = optionalsList.stream()
         	    .filter(Optional::isPresent) // Keep only present Optionals
         	    .map(Optional::get)          // Extract the values

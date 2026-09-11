@@ -44,7 +44,7 @@ class Singleton {
 	
 	 // Method
 	 // Static method to create instance of Singleton class
-	 public static Singleton Singleton()
+	 public static Singleton getInstance()
 	 {
 	     // To ensure only one instance is created
 	     if (single_instance == null) {
@@ -55,19 +55,19 @@ class Singleton {
 }
 
 
-public class Singleton_design_pattern {
+public class Design_Pattern_Singleton {
 	
     // Main driver method
     public static void main(String args[])
     {
         // Instantiating Singleton class with variable x
-        Singleton x = Singleton.Singleton();
+        Singleton x = Singleton.getInstance();
  
         // Instantiating Singleton class with variable y
-        Singleton y = Singleton.Singleton();
+        Singleton y = Singleton.getInstance();
  
         // instantiating Singleton class with variable z
-        Singleton z = Singleton.Singleton();
+        Singleton z = Singleton.getInstance();
  
         if (x == y && x == z)
         	System.out.println("x, y and z are pointing to the same instance.");
