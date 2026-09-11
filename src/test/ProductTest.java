@@ -52,4 +52,10 @@ class ProductTest {
 
         assertEquals(19.99, product.getPrice(), 0.001);
     }
+    
+    @Test
+    void shouldRejectMinusPrice() {
+    	Product product = new Product("Invalid", -10);
+    	assertNull(product);
+    }
 }

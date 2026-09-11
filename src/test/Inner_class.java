@@ -151,7 +151,7 @@ class Demo1 {
 //Main class
 class Flavor1Demo1 {
 	
-	//  An anonymous class with Demo as base class
+	//  An anonymous class with Demo1 as base class
 	static Demo1 d = new Demo1() {
 		// Method 1
 		// show() method

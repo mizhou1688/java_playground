@@ -112,4 +112,24 @@ class ShoppingCartTest {
         assertEquals(2, cart.getItems().size());
         assertEquals(2000.0, cart.calculateTotal());
     }
+    
+    @Test
+    void shouldAcceptFreeItem() {
+        ShoppingCart cart = new ShoppingCart();
+
+        Product item = new Product("Free Item", 0);
+        cart.addItem(item);
+        assertEquals(1, cart.getItems().size());
+        assertEquals(0.0, cart.calculateTotal());
+    }
+    
+    @Test
+    void shouldRejectNullProducts() {
+        ShoppingCart cart = new ShoppingCart();
+        Product item = null;
+        
+        cart.addItem(item);
+        assertEquals(0, cart.getItems().size());
+        assertEquals(0.0, cart.calculateTotal());
+    }
 }

@@ -108,4 +108,42 @@ class DiscountManagerTest {
 
         assertEquals(918.0, result);
     }
+    
+    @Test
+    void shoulRejecNullCart() {
+        ShoppingCart cart = null;
+
+        DiscountManager manager = new DiscountManager();
+
+        double result = manager.applyDiscount(cart, 0.10);
+
+        assertEquals(0.0, result);
+    }
+    
+    @Test
+    void shoulRejectDiscountGreaterThan100Percent() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem(new Product("Laptop", 1000));
+
+        DiscountManager manager = new DiscountManager();
+
+        double result = manager.applyDiscount(cart, 1.10);
+
+        assertEquals(1000.0, result);
+    }
+    
+    @Test
+    void shoulRejectNegtiveDiscount() {
+        ShoppingCart cart = new ShoppingCart();
+
+        cart.addItem(new Product("Laptop", 1000));
+
+        DiscountManager manager = new DiscountManager();
+
+        double result = manager.applyDiscount(cart, -0.10);
+
+        assertEquals(1000.0, result);
+    }
+    
 }
